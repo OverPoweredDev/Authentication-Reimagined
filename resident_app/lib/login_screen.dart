@@ -65,9 +65,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 textAlign: TextAlign.center,
                 style: GoogleFonts.openSans(color: Colors.white, fontSize: 14),
               ),
-              const SizedBox(
-                height: 50,
-              ),
+              const SizedBox(height: 50),
               _buildTextField(nameController, Icons.account_circle, 'Aadhaar'),
               const SizedBox(height: 20),
               _buildTextField(passwordController, Icons.lock, 'OTP'),
@@ -76,7 +74,18 @@ class _LoginScreenState extends State<LoginScreen> {
                 innerText: "Generate OTP",
                 buttonColor: Colors.teal,
                 textColor: Colors.white,
-                onPressed: () {},
+                onPressed: () {
+                  String stringAadhaarNum = nameController.text;
+                  int aadhaarNum;
+
+                  if (_isInValidAadhar(stringAadhaarNum)) {
+                    nameController.text = "Enter a Valid AadharNumber";
+                    return;
+                  }
+
+                  aadhaarNum = int.parse(stringAadhaarNum);
+                  generateOTP(aadhaarNum);
+                },
               ),
               const SizedBox(height: 20),
               EditButton(
@@ -115,6 +124,23 @@ class _LoginScreenState extends State<LoginScreen> {
 
     //6 digit
     if (s.length == 6) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  bool _isInValidAadhar(String s) {
+    if (s == '') {
+      return true;
+    }
+
+    if (int.tryParse(s) == null) {
+      return true;
+    }
+
+    //6 digit
+    if (s.length == 12) {
       return false;
     } else {
       return true;
