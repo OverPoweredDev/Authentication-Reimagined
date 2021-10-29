@@ -1,8 +1,13 @@
 import 'dart:convert';
 import 'dart:io';
+
+import 'package:camera/camera.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:verifier_app/qr_scanner.dart';
+
+import 'camera_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -25,7 +30,8 @@ class _HomeScreenState extends State<HomeScreen> {
     File image = File(imageURI);
 
     //same image as a string of bytes, easier to upload in a http request
-    String imageBytes = 'data:image/png;base64,' + base64Encode(image.readAsBytesSync());
+    String imageBytes =
+        'data:image/png;base64,' + base64Encode(image.readAsBytesSync());
 
     // TODO
   }
@@ -51,12 +57,12 @@ class _HomeScreenState extends State<HomeScreen> {
                 style: GoogleFonts.openSans(color: Colors.white, fontSize: 18),
               ),
               const SizedBox(height: 20),
-              const SizedBox(height: 20),
               EditButton(
                 innerText: 'Upload Photo of Face',
                 buttonColor: Colors.amber,
                 textColor: Colors.black,
                 onPressed: () {
+                  _showFaceDialog(context);
                 },
               ),
               const SizedBox(height: 80),
@@ -66,10 +72,14 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               const SizedBox(height: 20),
               EditButton(
-                innerText: 'Generate QR Code',
+                innerText: 'Scan QR Code',
                 buttonColor: Colors.blue,
                 textColor: Colors.white,
                 onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => Scanner()),
+                  );
                 },
               ),
             ],
@@ -78,7 +88,6 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
-
 
   _showFaceDialog(BuildContext context) {
     showDialog(
@@ -89,14 +98,14 @@ class _HomeScreenState extends State<HomeScreen> {
 
         return AlertDialog(
           content: SizedBox(
-              height: 400,
+              height: 412,
               width: 400,
               child: StatefulBuilder(
                 builder: (BuildContext context, StateSetter setState) {
                   availableCameras().then((cameras) {
                     final camera = cameras
                         .where((camera) =>
-                    camera.lensDirection == CameraLensDirection.back)
+                            camera.lensDirection == CameraLensDirection.back)
                         .toList()
                         .first;
                     setState(() {
@@ -118,7 +127,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               CardPicture(
                                 onTap: () async {
                                   final String? path =
-                                  await Navigator.of(context).push(
+                                      await Navigator.of(context).push(
                                     MaterialPageRoute(
                                       builder: (_) => TakePhoto(
                                         camera: _cameraDescription,
@@ -138,9 +147,9 @@ class _HomeScreenState extends State<HomeScreen> {
                             ],
                           ),
                         ),
-                        const SizedBox(height: 20.0),
+                        const SizedBox(height: 10.0),
                         Padding(
-                            padding: const EdgeInsets.all(10.0),
+                            padding: const EdgeInsets.all(20.0),
                             child: EditButton(
                               buttonColor: Colors.blue,
                               innerText: "Upload Image",
@@ -149,8 +158,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 uploadPhoto(_imagePath);
                                 Navigator.pop(context);
                               },
-                            )
-                        ),
+                            )),
                       ],
                     ),
                   );
@@ -164,7 +172,6 @@ class _HomeScreenState extends State<HomeScreen> {
       barrierColor: Colors.black.withOpacity(0.75),
     );
   }
-
 
   bool _isInValid(String s) {
     if (s == '') {

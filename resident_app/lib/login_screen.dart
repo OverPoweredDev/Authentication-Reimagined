@@ -79,7 +79,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   int aadhaarNum;
 
                   if (_isInValidAadhar(stringAadhaarNum)) {
-                    nameController.text = "Enter a Valid AadharNumber";
+                    nameController.text = "Enter a Valid Aadhar Number";
                     return;
                   }
 
