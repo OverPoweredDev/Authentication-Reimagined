@@ -1,7 +1,6 @@
-# Authentication Re-Imagined
-#### Team: 202 ACCEPTED
+![Banner](banner.png)
 
-Hackathon Submission for the UIDAI Hackathon 2021
+Hackathon Submission for the UIDAI Hackathon 2021 by Team 202ACCEPTED
 
 ### General
 
@@ -58,6 +57,6 @@ We use a modified Flutter (Kotlin/Swift) Techstack implemented mostly in flutter
 
 <br>
 
-### About Us
+### About Us - 202ACCEPTED
 - Omkar Prabhune, CSE Junior at VIT Pune
 - Atharva Rajadhyaksha, Instrumentation Junior at VIT Pune
