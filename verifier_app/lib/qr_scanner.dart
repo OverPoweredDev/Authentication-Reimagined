@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
+import 'package:verifier_app/verifier_data.dart';
 
 class Scanner extends StatefulWidget {
   @override
@@ -13,7 +14,7 @@ class _ScannerState extends State<Scanner> {
 
   @override
   void dispose() {
-    controller?.dispose();
+    controller.dispose();
     super.dispose();
   }
 
@@ -69,6 +70,7 @@ class _ScannerState extends State<Scanner> {
     controller.scannedDataStream.listen((scanData) async {
       controller.pauseCamera();
       if (scanData.code != null) {
+        VerifierData.qrData = scanData.code;
         print(scanData.code);
       } else {
         showDialog(

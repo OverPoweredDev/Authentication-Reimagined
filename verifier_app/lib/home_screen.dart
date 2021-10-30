@@ -4,9 +4,11 @@ import 'dart:io';
 import 'package:camera/camera.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:verifier_app/qr_scanner.dart';
 
+import 'package:android_intent_plus/android_intent.dart';
 import 'camera_screen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -17,13 +19,14 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final Color primaryColor = const Color(0xff18203d);
+  final Color primaryColor = const Color(0xff202020);
   final Color secondaryColor = const Color(0xff232c51);
 
   final Color logoGreen = const Color(0xff25bcbb);
 
   final TextEditingController nameController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  static const platform = MethodChannel('faceRD');
 
   void uploadPhoto(String imageURI) {
     //in case you need the image as a file
@@ -51,20 +54,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 'View Details',
                 style: GoogleFonts.openSans(color: Colors.white, fontSize: 28),
               ),
-              const SizedBox(height: 100),
-              Text(
-                'Upload Information',
-                style: GoogleFonts.openSans(color: Colors.white, fontSize: 18),
-              ),
-              const SizedBox(height: 20),
-              EditButton(
-                innerText: 'Upload Photo of Face',
-                buttonColor: Colors.amber,
-                textColor: Colors.black,
-                onPressed: () {
-                  _showFaceDialog(context);
-                },
-              ),
               const SizedBox(height: 80),
               Text(
                 'Verify Identity',
@@ -72,8 +61,17 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               const SizedBox(height: 20),
               EditButton(
+                innerText: 'Take Photo',
+                buttonColor: Colors.amber,
+                textColor: Colors.black,
+                onPressed: () {
+                  _showFaceDialog(context);
+                },
+              ),
+              const SizedBox(height: 20),
+              EditButton(
                 innerText: 'Scan QR Code',
-                buttonColor: Colors.blue,
+                buttonColor: Colors.redAccent,
                 textColor: Colors.white,
                 onPressed: () {
                   Navigator.push(
@@ -89,7 +87,10 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  _showFaceDialog(BuildContext context) {
+  _showFaceDialog(BuildContext context) async {
+
+    await platform.invokeMethod('captureIntent');
+
     showDialog(
       context: context,
       builder: (BuildContext context) {
