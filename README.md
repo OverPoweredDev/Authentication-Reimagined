@@ -28,11 +28,9 @@ resident_app
 
 with the files in `lib` containing the important application data
 
-<br>
+![Architecture Diagram](architecture_diagram.png)
 
 ### Approach
-
-![Architecture Diagram](architecture_diagram.png)
 
 #### Offline Fingerprint Authentication
 * UIDAI server generates a secure hash of the recorded fingerprint and sends it to the resident application as unique id (at setup).
@@ -45,11 +43,10 @@ with the files in `lib` containing the important application data
 * Resident app will obtain eKYC XML from UIDAI server (at setup).
 * Stateless match performed as already supported in the Verifier App.
 
-### Tech Stack
-
-We use a modified Flutter (Kotlin/Swift) Techstack implemented mostly in flutter with a few calls to Native code in Kotlin. All use of API's is limited to those provided by the UIDAI for the purposes of the Hackathon due to safety reasons.
-
 <br>
+
+### Tech Stack
+We use a modified Flutter (Kotlin/Swift) Techstack implemented mostly in flutter with a few calls to Native code in Kotlin. All use of API's is limited to those provided by the UIDAI for the purposes of the Hackathon due to safety reasons.
 
 #### API Usage
 - OTP API to simulate Fingerprint Hash (as mentioned in the docs)
