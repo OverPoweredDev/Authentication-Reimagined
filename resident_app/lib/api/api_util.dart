@@ -9,7 +9,7 @@ class urlHandler{
 class requestHandler{
   String? uid;
   String? vid;
-  String? txnId = "1";
+  String? txnId = "0acbaa8b-b3ae-433d-a5d2-51250ea8e970";
 
   requestHandler.uid(this.uid);
   requestHandler.vid(this.vid);
@@ -18,10 +18,10 @@ class requestHandler{
       throw Exception("Both uid and vid null");
     }
     else if (uid == null) {
-      return json.encode({'uid': uid, 'txnid': txnId});
+      return json.encode({'vid': vid, 'txnId': txnId});
     }
     else if (vid == null) {
-      return json.encode({'vid': vid, 'txnid': txnId});
+      return json.encode({'uid': uid, 'txnId': txnId});
     }
   }
 }
@@ -33,10 +33,6 @@ class responseHandler{
   responseHandler(String responsejson){
     var response = jsonDecode(responsejson);
     status = response['status'];
-    print(response['status']);
-    print("Test");
-    print(response['errCode']);
-    print("End test");
-    errcode = int.parse(response['errCode']);
+    errcode = int.parse(response['errCode'] ?? "0");
   }
 }
