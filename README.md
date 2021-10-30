@@ -7,7 +7,7 @@ Hackathon Submission for the UIDAI Hackathon 2021
 
 This is a project submitted to the UIDAI Aadhar Authentication Hackathon. We try to explore authentication options in a variety of ways, while providing a seamless transition from online to offline. The methods of Authentication are:
 - Fingerprint Matching (Simulated due to lack of fingerprint sensors)
-- Aadhar based OTP matching (Via SMS or email)
+- Aadhaar based OTP matching (Via SMS or email)
 - Stateless eKYC Matching
 
 The navigational structure of the project looks something like this
@@ -27,6 +27,8 @@ resident_app
 ```
 
 with the files in `lib` containing the important application data
+
+<br>
 
 ![Architecture Diagram](architecture_diagram.png)
 
