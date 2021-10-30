@@ -1,10 +1,9 @@
 import 'package:http/http.dart' as http;
-import 'api_util.dart';
+import 'otp_request_util.dart';
 
-Future<int> generateOTPapi(String aadhar) async{
+Future<String> generateOTPapi(String aadhar) async{
 
     requestHandler request = requestHandler.uid(aadhar);
-    print("ithe aaloy");
     urlHandler url = urlHandler();
     responseHandler? response;
     print(request.getBody());
@@ -18,5 +17,5 @@ Future<int> generateOTPapi(String aadhar) async{
     }
     print(response.status);
     print(response.errcode);
-    return Future.value(response.errcode);
+    return Future.value(request.txnId);
 }

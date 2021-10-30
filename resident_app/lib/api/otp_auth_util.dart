@@ -1,27 +1,29 @@
 import 'dart:convert';
-
 import 'dart:io';
 
 class urlHandler{
-  Uri url = Uri.parse("https://stage1.uidai.gov.in/onlineekyc/getOtp/");
+  Uri url = Uri.parse("https://stage1.uidai.gov.in/onlineekyc/getAuth/");
 }
 
 class requestHandler{
   String? uid;
   String? vid;
-  String? txnId = "0acbaa8b-b3ae-433d-a5d2-51250ea8e970";
-
-  requestHandler.uid(this.uid);
+  String? txnId;
+  int? otp;
+  requestHandler.uid(this.uid,int otp, String txnId){
+    this.txnId = txnId;
+    this.otp = otp;
+  }
   requestHandler.vid(this.vid);
   String? getBody(){
     if(vid == null && uid == null){
       throw Exception("Both uid and vid null");
     }
     else if (uid == null) {
-      return json.encode({'vid': vid, 'txnId': txnId});
+      return json.encode({'vid': vid, 'txnId': txnId, 'otp' : "$otp"});
     }
     else if (vid == null) {
-      return json.encode({'uid': uid, 'txnId': txnId});
+      return json.encode({'uid': uid, 'txnId': txnId, 'otp' : "$otp"});
     }
   }
 }
