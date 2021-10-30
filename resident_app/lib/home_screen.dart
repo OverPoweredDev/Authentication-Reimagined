@@ -118,7 +118,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   _getFingerprintButton() {
-    String buttonTitle = 'Upload Fingerprint';
+    String buttonTitle = 'Get Fingerprint';
     if (Resident.isFingerprintUploaded) {
       buttonTitle = 'Uploaded Fingerprint';
     }
