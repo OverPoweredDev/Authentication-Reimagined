@@ -3,8 +3,6 @@
 
 Hackathon Submission for the UIDAI Hackathon 2021
 
-<br>
-
 ### General
 
 This is a project submitted to the UIDAI Aadhar Authentication Hackathon. We try to explore authentication options in a variety of ways, while providing a seamless transition from online to offline. The methods of Authentication are:
@@ -34,7 +32,7 @@ with the files in `lib` containing the important application data
 
 ### Approach
 
-![](architecture_diagram.png)
+![Architecture Diagram](architecture_diagram.png)
 
 #### Offline Fingerprint Authentication
 * UIDAI server generates a secure hash of the recorded fingerprint and sends it to the resident application as unique id (at setup).
