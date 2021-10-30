@@ -8,7 +8,6 @@ import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:verifier_app/qr_scanner.dart';
 
-import 'package:android_intent_plus/android_intent.dart';
 import 'camera_screen.dart';
 
 class HomeScreen extends StatefulWidget {

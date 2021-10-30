@@ -31,7 +31,6 @@ dependencies:
     sdk: flutter
 
   camera:
-  android_intent_plus:
   qr_code_scanner:
   google_fonts:
   cupertino_icons: ^1.0.2

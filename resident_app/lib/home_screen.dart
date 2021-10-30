@@ -6,9 +6,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:qr_flutter/qr_flutter.dart';
+import 'package:resident_app/api/vid_otp_request.dart';
 import 'package:resident_app/resident_data.dart';
 
 import 'camera_screen.dart';
+
+import 'api/captcha_generation.dart';
+import 'api/vid_generate.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -26,10 +30,19 @@ class _HomeScreenState extends State<HomeScreen> {
   final TextEditingController nameController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
-  void generateOTP(int aadhaarNumber) {
-    // TODO
+  Map<String,String?>? captcha;
+
+  void generateCaptcha() async{
+    captcha = await generateCaptchaapi();
   }
 
+  void generateOTP(String aadhar,String captchaTxnId, String captchaValue) {
+    vidGenerateOTPapi(aadhar, captchaTxnId, captchaValue);
+  }
+
+  Future<String> generateVid(String aadhar,String mobile, int otp, String txnId){
+    return generateVidapi(aadhar, mobile, otp, txnId);
+  }
   void verifyOTP(int OTP) {
     bool verified = true;
 
@@ -128,7 +141,7 @@ class _HomeScreenState extends State<HomeScreen> {
       buttonColor: _getButtonColor(Resident.isFingerprintUploaded),
       textColor: Colors.black,
       onPressed: () {
-        generateOTP(1);
+        //generateOTP();
         _showFingerprintDialog(context);
       },
     );
