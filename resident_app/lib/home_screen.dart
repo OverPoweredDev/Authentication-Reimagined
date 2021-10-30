@@ -18,7 +18,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final Color primaryColor = const Color(0xff18203d);
+  final Color primaryColor = const Color(0xff202020);
   final Color secondaryColor = const Color(0xff232c51);
 
   final Color logoGreen = const Color(0xff25bcbb);
@@ -49,7 +49,8 @@ class _HomeScreenState extends State<HomeScreen> {
     File image = File(imageURI);
 
     //same image as a string of bytes, easier to upload in a http request
-    String imageBytes = 'data:image/png;base64,' + base64Encode(image.readAsBytesSync());
+    String imageBytes =
+        'data:image/png;base64,' + base64Encode(image.readAsBytesSync());
 
     // TODO
   }
@@ -78,7 +79,7 @@ class _HomeScreenState extends State<HomeScreen> {
               _getFingerprintButton(),
               const SizedBox(height: 20),
               EditButton(
-                innerText: 'Upload Photo of Face',
+                innerText: 'Get eKYC Document',
                 buttonColor: Colors.amber,
                 textColor: Colors.black,
                 onPressed: () {
@@ -93,11 +94,21 @@ class _HomeScreenState extends State<HomeScreen> {
               const SizedBox(height: 20),
               EditButton(
                 innerText: 'Generate QR Code',
-                buttonColor: Colors.blue,
+                buttonColor: Colors.redAccent,
                 textColor: Colors.white,
                 onPressed: () {
                   _showQRDialog(context);
                 },
+              ),
+              const SizedBox(height: 180),
+              Padding(
+                padding: const EdgeInsets.only(left: 190),
+                child: Text(
+                  '202 ACCEPTED',
+                  style: GoogleFonts.jetBrainsMono(
+                      color: Colors.white, fontSize: 18),
+                  textAlign: TextAlign.right,
+                ),
               ),
             ],
           ),
@@ -143,16 +154,17 @@ class _HomeScreenState extends State<HomeScreen> {
               Text(
                 'Enter the OTP you recieved',
                 style: GoogleFonts.openSans(
-                    color: Colors.white,
-                    fontSize: 18,
-                    fontWeight: FontWeight.w600),
+                  color: Colors.white,
+                  fontSize: 18,
+                  fontWeight: FontWeight.w600,
+                ),
               ),
               const SizedBox(height: 20),
               _buildTextField(passwordController, Icons.lock, 'OTP'),
               const SizedBox(height: 20),
               EditButton(
                 innerText: "Verify",
-                buttonColor: Colors.blue,
+                buttonColor: Colors.redAccent,
                 textColor: Colors.white,
                 onPressed: () {
                   String stringOtp = passwordController.text;
@@ -238,17 +250,16 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                         const SizedBox(height: 20.0),
                         Padding(
-                          padding: const EdgeInsets.all(10.0),
-                          child: EditButton(
-                            buttonColor: Colors.blue,
-                            innerText: "Upload Image",
-                            textColor: Colors.white,
-                            onPressed: () {
-                              uploadPhoto(_imagePath);
-                              Navigator.pop(context);
-                            },
-                          )
-                        ),
+                            padding: const EdgeInsets.all(10.0),
+                            child: EditButton(
+                              buttonColor: Colors.redAccent,
+                              innerText: "Upload Image",
+                              textColor: Colors.white,
+                              onPressed: () {
+                                uploadPhoto(_imagePath);
+                                Navigator.pop(context);
+                              },
+                            )),
                       ],
                     ),
                   );

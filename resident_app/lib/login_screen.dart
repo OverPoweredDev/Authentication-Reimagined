@@ -12,8 +12,8 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final Color primaryColor = const Color(0xff18203d);
-  final Color secondaryColor = const Color(0xff232c51);
+  final Color primaryColor = const Color(0xff202020);
+  final Color secondaryColor = const Color(0xff565656);
 
   final Color logoGreen = const Color(0xff25bcbb);
 
@@ -78,7 +78,7 @@ class _LoginScreenState extends State<LoginScreen> {
               const SizedBox(height: 150),
               EditButton(
                 innerText: "Generate OTP",
-                buttonColor: Colors.teal,
+                buttonColor: Colors.amber,
                 textColor: Colors.white,
                 onPressed: () {
                   String stringAadhaarNum = nameController.text;
@@ -96,7 +96,7 @@ class _LoginScreenState extends State<LoginScreen> {
               const SizedBox(height: 20),
               EditButton(
                 innerText: "Verify",
-                buttonColor: Colors.blue,
+                buttonColor: Colors.redAccent,
                 textColor: Colors.white,
                 onPressed: () {
                   String stringOtp = passwordController.text;
@@ -158,7 +158,7 @@ class _LoginScreenState extends State<LoginScreen> {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
       decoration: BoxDecoration(
-          color: secondaryColor, border: Border.all(color: Colors.blue)),
+          color: secondaryColor, border: Border.all(color: Colors.white38)),
       child: TextField(
         controller: controller,
         style: const TextStyle(color: Colors.white),
