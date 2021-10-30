@@ -39,7 +39,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
 
-
+  http:
   camera:
   qr_flutter: ^4.0.0
   google_fonts:

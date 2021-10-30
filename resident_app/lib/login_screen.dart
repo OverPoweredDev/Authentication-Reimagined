@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:resident_app/home_screen.dart';
+import 'api/otp_request.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -19,7 +20,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController passwordController = TextEditingController();
 
   void generateOTP(int aadhaarNumber) {
-    // TODO
+    generateOTPapi(aadhaarNumber.toString());
   }
 
   void verifyOTP(int OTP) {
