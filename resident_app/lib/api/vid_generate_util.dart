@@ -10,6 +10,7 @@ class requestHandler{
   String? mobile;
   String? otpTxnId;
   int? otp;
+
   requestHandler(this.uid,String mobile, int otp, String otpTxnId){
     this.otpTxnId = otpTxnId;
     this.otp = otp;

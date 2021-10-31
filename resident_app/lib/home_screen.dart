@@ -9,10 +9,9 @@ import 'package:qr_flutter/qr_flutter.dart';
 import 'package:resident_app/api/vid_otp_request.dart';
 import 'package:resident_app/resident_data.dart';
 
-import 'camera_screen.dart';
-
 import 'api/captcha_generation.dart';
 import 'api/vid_generate.dart';
+import 'camera_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -23,50 +22,58 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final Color primaryColor = const Color(0xff202020);
-  final Color secondaryColor = const Color(0xff232c51);
+  final Color secondaryColor = const Color(0xff565656);
 
   final Color logoGreen = const Color(0xff25bcbb);
 
-  final TextEditingController nameController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController captchaController = TextEditingController();
+  final TextEditingController phoneController = TextEditingController();
+  final TextEditingController otpController = TextEditingController();
 
-  Map<String,String?>? captcha;
+  String vidTxnID = "";
+  Map<String, String?>? captcha;
 
-  void generateCaptcha() async{
+  Future<String?> generateCaptcha() async {
     captcha = await generateCaptchaapi();
+    return captcha!['captchaBase64String'];
   }
 
-  void generateOTP(String aadhar,String captchaTxnId, String captchaValue) {
-    vidGenerateOTPapi(aadhar, captchaTxnId, captchaValue);
+  void generateOTP(String aadhar, String captchaTxnId, String captchaValue) async {
+    vidTxnID = await vidGenerateOTPapi(aadhar, captchaTxnId, captchaValue);
   }
 
-  Future<String> generateVid(String aadhar,String mobile, int otp, String txnId){
+  Future<String> generateVid(
+      String aadhar, String mobile, int otp, String txnId) {
     return generateVidapi(aadhar, mobile, otp, txnId);
   }
-  void verifyOTP(int OTP) {
+
+  void verifyOTP(int OTP, String txnID) async {
     bool verified = true;
 
-    // TODO
+    Resident.phoneNum = phoneController.text;
+    Resident.VID = await generateVid(Resident.aadharNum, phoneController.text, OTP, txnID);
+
+    print(Resident.VID);
 
     if (verified) {
-      Resident.isFingerprintUploaded = true;
+      Resident.isVIDUploaded = true;
       Navigator.pop(context);
       setState(() {});
     } else {
-      passwordController.text = "Invalid OTP";
+      otpController.text = "Invalid OTP";
     }
   }
 
-  void uploadPhoto(String imageURI) {
-    //in case you need the image as a file
-    File image = File(imageURI);
-
-    //same image as a string of bytes, easier to upload in a http request
-    String imageBytes =
-        'data:image/png;base64,' + base64Encode(image.readAsBytesSync());
-
-    // TODO
-  }
+  // void uploadPhoto(String imageURI) {
+  //   //in case you need the image as a file
+  //   File image = File(imageURI);
+  //
+  //   //same image as a string of bytes, easier to upload in a http request
+  //   String imageBytes =
+  //       'data:image/png;base64,' + base64Encode(image.readAsBytesSync());
+  //
+  //   // TODO
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -89,7 +96,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 style: GoogleFonts.openSans(color: Colors.white, fontSize: 18),
               ),
               const SizedBox(height: 20),
-              _getFingerprintButton(),
+              _getVIDButton(),
               const SizedBox(height: 20),
               EditButton(
                 innerText: 'Get eKYC Document',
@@ -130,19 +137,18 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  _getFingerprintButton() {
-    String buttonTitle = 'Get Fingerprint';
-    if (Resident.isFingerprintUploaded) {
-      buttonTitle = 'Uploaded Fingerprint';
+  _getVIDButton() {
+    String buttonTitle = 'Get VID';
+    if (Resident.isVIDUploaded) {
+      buttonTitle = 'Recieved VID';
     }
 
     return EditButton(
       innerText: buttonTitle,
-      buttonColor: _getButtonColor(Resident.isFingerprintUploaded),
+      buttonColor: _getButtonColor(Resident.isVIDUploaded),
       textColor: Colors.black,
-      onPressed: () {
-        //generateOTP();
-        _showFingerprintDialog(context);
+      onPressed: () async {
+        _showCaptchaDialog(context);
       },
     );
   }
@@ -155,7 +161,88 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
-  _showFingerprintDialog(BuildContext context) {
+  _showCaptchaDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        String image64 = '';
+        return AlertDialog(
+          content: SizedBox(
+              height: 360,
+              width: 300,
+              child: StatefulBuilder(
+                builder: (BuildContext context, StateSetter setState) {
+                  if (image64.isEmpty) {
+                    generateCaptcha().then((imageBase64) {
+                      setState(() {
+                        image64 = imageBase64!;
+                      });
+                    });
+                  }
+
+                  getImage() {
+                    if (image64.isNotEmpty) {
+                      return Image.memory(base64Decode(image64));
+                    } else {
+                      return Container();
+                    }
+                  }
+
+                  return Container(
+                    padding: const EdgeInsets.only(top: 15.0),
+                    color: primaryColor,
+                    child: Column(
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                          height: 100,
+                          child: getImage(),
+                        ),
+                        const SizedBox(height: 20.0),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 10),
+                          child: _buildTextField(
+                              phoneController, Icons.phone, 'Phone Number'),
+                        ),
+                        const SizedBox(height: 20.0),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 10),
+                          child: _buildTextField(captchaController,
+                              Icons.text_format, 'Captcha Value'),
+                        ),
+                        const SizedBox(height: 20.0),
+                        Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: EditButton(
+                            buttonColor: Colors.redAccent,
+                            innerText: "Verify Value",
+                            textColor: Colors.white,
+                            onPressed: () {
+                              generateOTP(
+                                Resident.aadharNum,
+                                captcha!['captchaTxnId']!,
+                                captchaController.text,
+                              );
+                              Navigator.pop(context);
+                              _showOTPDialog(context);
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                },
+              )),
+          contentPadding: const EdgeInsets.all(0),
+          backgroundColor: Colors.white,
+          scrollable: true,
+        );
+      },
+      barrierColor: Colors.black.withOpacity(0.75),
+    );
+  }
+
+  _showOTPDialog(BuildContext context) {
     showDialog(
       context: context,
       builder: (BuildContext context) => AlertDialog(
@@ -173,23 +260,23 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
               const SizedBox(height: 20),
-              _buildTextField(passwordController, Icons.lock, 'OTP'),
+              _buildTextField(otpController, Icons.lock, 'OTP'),
               const SizedBox(height: 20),
               EditButton(
                 innerText: "Verify",
                 buttonColor: Colors.redAccent,
                 textColor: Colors.white,
                 onPressed: () {
-                  String stringOtp = passwordController.text;
+                  String stringOtp = otpController.text;
                   int intOtp;
 
                   if (_isInValid(stringOtp)) {
-                    passwordController.text = "Enter a Valid OTP";
+                    otpController.text = "Enter a Valid OTP";
                     return;
                   }
 
                   intOtp = int.parse(stringOtp);
-                  verifyOTP(intOtp);
+                  verifyOTP(intOtp, vidTxnID);
                 },
               ),
             ],
@@ -263,16 +350,16 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                         const SizedBox(height: 20.0),
                         Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            child: EditButton(
-                              buttonColor: Colors.redAccent,
-                              innerText: "Upload Image",
-                              textColor: Colors.white,
-                              onPressed: () {
-                                uploadPhoto(_imagePath);
-                                Navigator.pop(context);
-                              },
-                            )),
+                          padding: const EdgeInsets.all(10.0),
+                          child: EditButton(
+                            buttonColor: Colors.redAccent,
+                            innerText: "Upload Image",
+                            textColor: Colors.white,
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                          ),
+                        ),
                       ],
                     ),
                   );
@@ -295,7 +382,7 @@ class _HomeScreenState extends State<HomeScreen> {
           width: 320,
           height: 312,
           child: QrImage(
-            data: Resident.fingerprintHash,
+            data: Resident.VID,
             version: QrVersions.auto,
             foregroundColor: Colors.black,
             padding: const EdgeInsets.all(10),
@@ -334,7 +421,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
       decoration: BoxDecoration(
-          color: secondaryColor, border: Border.all(color: Colors.blue)),
+          color: secondaryColor, border: Border.all(color: Colors.black38)),
       child: TextField(
         controller: controller,
         style: const TextStyle(color: Colors.white),

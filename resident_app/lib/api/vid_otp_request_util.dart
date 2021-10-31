@@ -32,11 +32,11 @@ class responseHandler{
 
   responseHandler(String responsejson){
     var response = jsonDecode(responsejson);
-    uidNumber = response['uidNumber'];
-    mobileNumber = response['mobileNumber'];
-    txnId = response['txnId'];
-    status = response['status'];
-    message = response ['message'];
+    uidNumber = response['uidNumber'].toString();
+    mobileNumber = response['mobileNumber'].toString();
+    txnId = response['txnId'].toString();
+    status = response['status'].toString();
+    message = response ['message'].toString();
   }
 
 }

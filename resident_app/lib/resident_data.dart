@@ -1,5 +1,8 @@
 // basically user
 class Resident {
-  static bool isFingerprintUploaded = false;
-  static String fingerprintHash = "fingerprint";
+  static String aadharNum = "";
+  static String phoneNum = "";
+  static String VID = "";
+
+  static bool isVIDUploaded = false;
 }
