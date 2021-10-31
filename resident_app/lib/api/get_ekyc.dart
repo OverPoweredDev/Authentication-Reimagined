@@ -15,7 +15,9 @@ Future<Map<String,String?>> getEkycapi(String aadhar, String otp, String txnId) 
     print("Kahitari error with status code ${httpresponse.statusCode}");
     throw Exception("http response failed");
   }
+
   print(response.status);
+
   bool verify = false;
   if (response.status == "Success"){
     verify = true;

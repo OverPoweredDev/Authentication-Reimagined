@@ -10,12 +10,11 @@ class Scanner extends StatefulWidget {
 
 class _ScannerState extends State<Scanner> {
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
-  String qrData = "";
   late QRViewController controller;
 
   @override
   void dispose() {
-    controller.dispose();
+    controller?.dispose();
     super.dispose();
   }
 
@@ -68,38 +67,37 @@ class _ScannerState extends State<Scanner> {
 
   void _onQRViewCreated(QRViewController controller) {
     this.controller = controller;
-    controller.scannedDataStream.listen((scanData) async {
+    controller.scannedDataStream.listen((scanData) {
       controller.pauseCamera();
 
-        VerifierData.qrData = scanData.code;
-        print(scanData.code);
-        Navigator.pop(context);
+      VerifierData.qrData = scanData.code;
+      print(scanData.code);
+      Navigator.pop(context);
 
-        showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return AlertDialog(
-              title: Text('Could not find viable url'),
-              content: SingleChildScrollView(
-                child: ListBody(
-                  children: <Widget>[
-                    Text('Barcode Type: ${describeEnum(scanData.format)}'),
-                    Text('Data: ${scanData.code}'),
-                  ],
-                ),
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Could not find viable url'),
+            content: SingleChildScrollView(
+              child: ListBody(
+                children: <Widget>[
+                  Text('Barcode Type: ${describeEnum(scanData.format)}'),
+                  Text('Data: ${scanData.code}'),
+                ],
               ),
-              actions: <Widget>[
-                TextButton(
-                  child: Text('Ok'),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                ),
-              ],
-            );
-          },
-        ).then((value) => controller.resumeCamera());
-      }
-    );
+            ),
+            actions: <Widget>[
+              TextButton(
+                child: Text('Ok'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        },
+      ).then((value) => controller.resumeCamera());
+    });
   }
 }

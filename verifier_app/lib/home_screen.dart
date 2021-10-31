@@ -6,9 +6,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:verifier_app/api/otp_auth.dart';
+import 'package:verifier_app/api/otp_request.dart';
 import 'package:verifier_app/qr_scanner.dart';
 
 import 'camera_screen.dart';
+import 'verifier_data.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -23,9 +26,11 @@ class _HomeScreenState extends State<HomeScreen> {
 
   final Color logoGreen = const Color(0xff25bcbb);
 
-  final TextEditingController nameController = TextEditingController();
+  final TextEditingController otpController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   static const platform = MethodChannel('faceRD');
+
+  String txnId = "";
 
   void uploadPhoto(String imageURI) {
     //in case you need the image as a file
@@ -102,6 +107,16 @@ class _HomeScreenState extends State<HomeScreen> {
                   );
                 },
               ),
+              const SizedBox(height: 20),
+              EditButton(
+                innerText: 'Enter OTP',
+                buttonColor: Colors.redAccent,
+                textColor: Colors.white,
+                onPressed: () async {
+                  txnId = await generateOTPapi(VerifierData.qrData);
+                  _showOTPDialog(context);
+                },
+              ),
             ],
           ),
         ),
@@ -110,7 +125,6 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   _showFaceDialog(BuildContext context) async {
-
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -194,6 +208,107 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+  _showOTPDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) => AlertDialog(
+        content: Padding(
+          padding: const EdgeInsets.all(15),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Enter the OTP you recieved',
+                style: GoogleFonts.openSans(
+                  color: Colors.white,
+                  fontSize: 18,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              const SizedBox(height: 20),
+              _buildTextField(otpController, Icons.lock, 'OTP'),
+              const SizedBox(height: 20),
+              EditButton(
+                innerText: "Verify",
+                buttonColor: Colors.redAccent,
+                textColor: Colors.white,
+                onPressed: () async {
+                  String stringOtp = otpController.text;
+                  int intOtp;
+
+                  if (_isInValid(stringOtp)) {
+                    otpController.text = "Enter a Valid OTP";
+                    return;
+                  }
+
+                  intOtp = int.parse(stringOtp);
+
+                  bool result =
+                      await verifyOTPapi(VerifierData.qrData, intOtp, txnId);
+                  print(result);
+
+                  Navigator.pop(context);
+                  _showSuccessFailureDialog(context, result);
+                },
+              ),
+            ],
+          ),
+        ),
+        contentPadding: const EdgeInsets.all(0),
+        backgroundColor: primaryColor,
+        scrollable: true,
+      ),
+      barrierColor: Colors.black.withOpacity(0.75),
+    );
+  }
+
+  _showSuccessFailureDialog(BuildContext context, bool result) {
+    IconData icon = Icons.clear;
+    Color dialogColor = Colors.redAccent;
+    String text = "Authentication Failed, Please Try Again";
+
+    if (result) {
+      icon = Icons.check;
+      dialogColor = Colors.green;
+      text = "Authentication Succeeded!";
+    }
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) => AlertDialog(
+        content: Padding(
+          padding: const EdgeInsets.all(15),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SizedBox(height: 30),
+              Center(
+                child: Icon(icon, size: 140, color: Colors.white),
+              ),
+              const SizedBox(height: 40),
+              Center(
+                child: Text(
+                  text,
+                  style: GoogleFonts.openSans(
+                    color: Colors.white,
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+              const SizedBox(height: 20),
+            ],
+          ),
+        ),
+        contentPadding: const EdgeInsets.all(0),
+        backgroundColor: dialogColor,
+        scrollable: true,
+      ),
+      barrierColor: Colors.black.withOpacity(0.75),
+    );
+  }
+
   bool _isInValid(String s) {
     if (s == '') {
       return true;
@@ -209,6 +324,36 @@ class _HomeScreenState extends State<HomeScreen> {
     } else {
       return true;
     }
+  }
+
+  _buildTextField(
+      TextEditingController controller, IconData icon, String labelText,
+      [bool isDense = false]) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+      decoration: BoxDecoration(
+          color: secondaryColor, border: Border.all(color: Colors.black38)),
+      child: TextField(
+        controller: controller,
+        style: const TextStyle(color: Colors.white),
+        keyboardType: TextInputType.number,
+        decoration: InputDecoration(
+          icon: Icon(
+            icon,
+            color: Colors.white,
+          ),
+          isDense: isDense,
+          border: InputBorder.none,
+          focusedBorder: InputBorder.none,
+          enabledBorder: InputBorder.none,
+          errorBorder: InputBorder.none,
+          disabledBorder: InputBorder.none,
+          contentPadding: const EdgeInsets.symmetric(horizontal: 10),
+          hintText: labelText,
+          hintStyle: TextStyle(color: Colors.white.withOpacity(0.8)),
+        ),
+      ),
+    );
   }
 }
 

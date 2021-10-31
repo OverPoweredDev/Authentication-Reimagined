@@ -10,11 +10,10 @@ class requestHandler{
   String? vid;
   String? txnId;
   int? otp;
-  requestHandler.uid(this.uid,int otp, String txnId){
+  requestHandler.vid(this.vid,int otp, String txnId){
     this.txnId = txnId;
     this.otp = otp;
   }
-  requestHandler.vid(this.vid);
   String? getBody(){
     if(vid == null && uid == null){
       throw Exception("Both uid and vid null");
