@@ -16,5 +16,7 @@ Future<String> vidGenerateOTPapi(String aadhar,String captchaTxnId, String captc
     throw Exception("http response failed");
   }
 
+  print(response.mobileNumber);
+
   return Future.value(response.txnId);
 }

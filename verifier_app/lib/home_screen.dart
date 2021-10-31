@@ -55,17 +55,40 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               const SizedBox(height: 80),
               Text(
-                'Verify Identity',
+                'Face Recognition',
                 style: GoogleFonts.openSans(color: Colors.white, fontSize: 18),
               ),
               const SizedBox(height: 20),
               EditButton(
-                innerText: 'Take Photo',
+                innerText: 'Test Camera',
                 buttonColor: Colors.amber,
                 textColor: Colors.black,
-                onPressed: () {
+                onPressed: () async {
                   _showFaceDialog(context);
                 },
+              ),
+              const SizedBox(height: 20),
+              EditButton(
+                innerText: 'Check Lighting',
+                buttonColor: Colors.amber,
+                textColor: Colors.black,
+                onPressed: () async {
+                  await platform.invokeMethod('lightingIntent');
+                },
+              ),
+              const SizedBox(height: 20),
+              EditButton(
+                innerText: 'Offline Face Auth',
+                buttonColor: Colors.amber,
+                textColor: Colors.black,
+                onPressed: () async {
+                  await platform.invokeMethod('captureIntent');
+                },
+              ),
+              const SizedBox(height: 80),
+              Text(
+                'Verify Identity',
+                style: GoogleFonts.openSans(color: Colors.white, fontSize: 18),
               ),
               const SizedBox(height: 20),
               EditButton(
@@ -87,8 +110,6 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   _showFaceDialog(BuildContext context) async {
-
-    await platform.invokeMethod('captureIntent');
 
     showDialog(
       context: context,
@@ -151,8 +172,8 @@ class _HomeScreenState extends State<HomeScreen> {
                         Padding(
                             padding: const EdgeInsets.all(20.0),
                             child: EditButton(
-                              buttonColor: Colors.blue,
-                              innerText: "Upload Image",
+                              buttonColor: Colors.amberAccent,
+                              innerText: "Done",
                               textColor: Colors.white,
                               onPressed: () {
                                 uploadPhoto(_imagePath);

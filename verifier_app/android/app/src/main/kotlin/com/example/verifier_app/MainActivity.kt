@@ -15,8 +15,10 @@ class MainActivity : FlutterActivity() {
         super.configureFlutterEngine(flutterEngine)
         MethodChannel(flutterEngine.dartExecutor.binaryMessenger, CHANNEL).setMethodCallHandler { call, result ->
             if (call.method == "captureIntent") {
-//                invokeLightingIntent()
                 invokeCaptureIntent()
+                result.success("captured")
+            } else if (call.method == "lightingIntent") {
+                invokeLightingIntent()
                 result.success("captured")
             } else {
                 result.notImplemented()

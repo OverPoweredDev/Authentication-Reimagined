@@ -10,6 +10,7 @@ class Scanner extends StatefulWidget {
 
 class _ScannerState extends State<Scanner> {
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
+  String qrData = "";
   late QRViewController controller;
 
   @override
@@ -69,10 +70,11 @@ class _ScannerState extends State<Scanner> {
     this.controller = controller;
     controller.scannedDataStream.listen((scanData) async {
       controller.pauseCamera();
-      if (scanData.code != null) {
+
         VerifierData.qrData = scanData.code;
         print(scanData.code);
-      } else {
+        Navigator.pop(context);
+
         showDialog(
           context: context,
           builder: (BuildContext context) {
@@ -98,6 +100,6 @@ class _ScannerState extends State<Scanner> {
           },
         ).then((value) => controller.resumeCamera());
       }
-    });
+    );
   }
 }
