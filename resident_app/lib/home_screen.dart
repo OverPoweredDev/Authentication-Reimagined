@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
-import 'dart:typed_data';
 
+import 'package:archive/archive.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -11,7 +11,6 @@ import 'package:resident_app/api/get_ekyc.dart';
 import 'package:resident_app/api/vid_otp_request.dart';
 import 'package:resident_app/resident_data.dart';
 
-import 'package:archive/archive.dart';
 import 'api/captcha_generation.dart';
 import 'api/vid_generate.dart';
 import 'camera_screen.dart';
@@ -57,8 +56,9 @@ class _HomeScreenState extends State<HomeScreen> {
     String decompress(String zipText) {
       final List<int> compressed = base64Decode(zipText);
       if (compressed.length > 4) {
-        List<int> uint8list = GZipDecoder().decodeBytes(compressed.sublist(4, compressed.length - 4));
-        print( String.fromCharCodes(uint8list));
+        List<int> uint8list = GZipDecoder()
+            .decodeBytes(compressed.sublist(4, compressed.length - 4));
+        print(String.fromCharCodes(uint8list));
         return String.fromCharCodes(uint8list);
       } else {
         return "";
@@ -309,7 +309,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   }
 
                   intOtp = int.parse(stringOtp);
-                  if(isEKYC){
+                  if (isEKYC) {
                     verifyOTPEKYC(stringOtp, vidTxnID);
                     return;
                   }
@@ -436,11 +436,15 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  _showErrorDialog(BuildContext context, String message, [Color color = Colors.red]) {
+  _showErrorDialog(BuildContext context, String message,
+      [Color color = Colors.red]) {
     showDialog(
       context: context,
       builder: (BuildContext context) => AlertDialog(
-        content: Text(message, style: TextStyle(color: color)),
+        content: Padding(
+          padding: const EdgeInsets.all(15),
+          child: Text(message, style: TextStyle(color: color)),
+        ),
         contentPadding: const EdgeInsets.all(0),
         backgroundColor: Colors.white,
         scrollable: true,

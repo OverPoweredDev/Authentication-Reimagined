@@ -78,7 +78,11 @@ class _HomeScreenState extends State<HomeScreen> {
                 buttonColor: Colors.amber,
                 textColor: Colors.black,
                 onPressed: () async {
+                  print("lighting");
                   await platform.invokeMethod('lightingIntent');
+                  // await Future.delayed(const Duration(seconds: 30));
+                  // bool res = await platform.invokeMethod('getResult');
+                  // print(res);
                 },
               ),
               const SizedBox(height: 20),
@@ -88,6 +92,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 textColor: Colors.black,
                 onPressed: () async {
                   await platform.invokeMethod('captureIntent');
+                  String res = await platform.invokeMethod('getResult');
                 },
               ),
               const SizedBox(height: 80),

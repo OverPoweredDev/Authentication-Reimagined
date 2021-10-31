@@ -9,6 +9,7 @@ import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.plugin.common.MethodChannel
 
 class MainActivity : FlutterActivity() {
+    var RESULT = true;
     private val CHANNEL = "faceRD"
 
     override fun configureFlutterEngine(@NonNull flutterEngine: FlutterEngine) {
@@ -16,10 +17,10 @@ class MainActivity : FlutterActivity() {
         MethodChannel(flutterEngine.dartExecutor.binaryMessenger, CHANNEL).setMethodCallHandler { call, result ->
             if (call.method == "captureIntent") {
                 invokeCaptureIntent()
-                result.success("captured")
             } else if (call.method == "lightingIntent") {
                 invokeLightingIntent()
-                result.success("captured")
+            } else if (call.method == "getResult") {
+                result.success(RESULT)
             } else {
                 result.notImplemented()
             }
@@ -55,7 +56,7 @@ class MainActivity : FlutterActivity() {
     }
 
     fun launchFaceMatchIntent(request: String) {
-        val intent = createIntent("in.gov.uidai.rdservice.face.MATCH")
+        val intent = Intent("in.gov.uidai.rdservice.face.MATCH")
 
         intent.putExtra("request", request)
 
@@ -66,13 +67,16 @@ class MainActivity : FlutterActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         data?.let {
-            if (resultCode == Activity.RESULT_OK && requestCode == MATCH_REQ_CODE) {
-                //handleMatchResponse(it.getStringExtra("response"));
+            if (resultCode == Activity.RESULT_OK && requestCode == 1231) {
+                handleLightingResponse(data.getStringExtra("response"));
             }
         }
     }
-    //fun handleMatchResponse(response: String){
-    //
-    //}
+
+    fun handleLightingResponse(response: String?){
+        val res = response?.toString() ?: ""
+        print(res);
+        RESULT = Regex("errCode = \"0\"").matches(res)
+    }
 
 }
