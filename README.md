@@ -2,6 +2,41 @@
 
 Hackathon Submission for the UIDAI Hackathon 2021 by Team 202ACCEPTED
 
+## Theme 2 : Problem Statement 4
+### 100% Authentication success in Rural India
+
+<br>
+
+### Important Links
+
+* [Compiled APKs (Verifier and Resident)](https://drive.google.com/drive/folders/1Nm-D_hOP8DvX-84G0MmmSq87CFw2rvel?usp=sharing)
+* Presentation of Solution
+* [Screenshots of App](https://drive.google.com/drive/folders/1yqrvqmFdz82PvhLRp3VgP-M9xBx-h8UG?usp=sharing)
+* [Screen Recording of Apps](https://drive.google.com/drive/folders/1322cyvZyhc_71UxXgd9phQR2dFMM7lZ2?usp=sharing)
+* [G-Drive Link](https://drive.google.com/drive/u/1/folders/1UCbi8d1H3KmbGus2gnI6PwYWdqzX4PD0)
+
+
+<br>
+
+
+
+###  App Flow 
+
+#### Scenario
+* Resident approaches PDS shop for Ration.
+* Located in Rural India with no 3G/4G connectivity.
+
+#### Verifier APP
+* Uses OTP Authentication as primary mechanism.
+* Resident Shares Virtual Aadhaar Number / Offline eKYC with PDS shop.
+* Application facilitates OTP Authentication, Online/Offline Face Authentication for Completely inclusive authentication.
+
+#### Resident App
+* OTP verification for secure login.
+* Facilitates generation of Virtual Aadhaar Number with Captcha and OTP based security.
+* Facilitates downloading eKYC XML to share with Verifier using QR code for OFfline Face Auth.
+
+
 ### General
 
 This is a project submitted to the UIDAI Aadhar Authentication Hackathon. We try to explore authentication options in a variety of ways, while providing a seamless transition from online to offline. The methods of Authentication are:
