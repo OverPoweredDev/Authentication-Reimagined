@@ -155,8 +155,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 buttonColor: Colors.amber,
                 textColor: Colors.black,
                 onPressed: () async {
-                  await platform.invokeMethod('captureIntent');
-                  String res = await platform.invokeMethod('getResult');
+                  //await platform.invokeMethod('captureIntent');
+                  bool res = await platform.invokeMethod('getResult');
+                  print(res);
                 },
               ),
               const SizedBox(height: 80),
