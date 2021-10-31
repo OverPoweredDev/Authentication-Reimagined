@@ -1,4 +1,4 @@
-![Banner](banner.png)
+![Banner](banner.png) 
 
 Hackathon Submission for the UIDAI Hackathon 2021 by Team 202ACCEPTED
 
