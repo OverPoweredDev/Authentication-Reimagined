@@ -6,6 +6,7 @@ Future<Map<String,String?>> getEkycapi(String aadhar, String otp, String txnId) 
   requestHandler request = requestHandler.uid(aadhar, otp, txnId);
   urlHandler url = urlHandler();
   responseHandler? response;
+  print(request.uid);
   print(request.getBody());
   http.Response httpresponse = await http.post(url.url,headers: {'Content-type' : 'application/json'},body:request.getBody());
   if (httpresponse.statusCode == 200) {

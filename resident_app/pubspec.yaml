@@ -41,6 +41,7 @@ dev_dependencies:
   uuid: ^3.0.5
   http:
   camera:
+  archive: ^3.1.6
   qr_flutter: ^4.0.0
   google_fonts:
   flutter_lints: ^1.0.0

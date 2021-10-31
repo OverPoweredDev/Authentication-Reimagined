@@ -15,21 +15,21 @@ class requestHandler{
 
   requestHandler.uid(this.uid,this.otp,this.txnNumber){
     var random = Random(10);
-    shareCode = random.nextInt(999999).toString();
+    shareCode = random.nextInt(9999).toString();
   }
   requestHandler.vid(this.vid,this.otp,this.txnNumber){
     var random = Random(10);
-    shareCode = random.nextInt(999999).toString();
+    shareCode = random.nextInt(9999).toString();
   }
 
   String? getBody() {
     if(vid == null && uid == null){
       throw Exception("Both uid and vid null");
     }
-    else if (uid == null) {
+    else if (vid == null) {
       return json.encode({'txnNumber': txnNumber, 'otp': otp, 'shareCode' : shareCode, 'uid' : uid });
     }
-    else if (vid == null) {
+    else if (uid == null) {
       return json.encode({'txnNumber': txnNumber, 'otp': otp, 'shareCode' : shareCode, 'vid' : vid });
     }
   }
@@ -44,10 +44,10 @@ class responseHandler{
 
   responseHandler(String responsejson){
     var response = jsonDecode(responsejson);
-    eKycXML = response['eKycXML'];
-    fileName = response['fileName'];
-    status = response['status'];
-    requestDate = response['requestDate'];
-    uidNumber = response['uidNumber'];
+    eKycXML = response['eKycXML'].toString();
+    fileName = response['fileName'].toString();
+    status = response['status'].toString();
+    requestDate = response['requestDate'].toString();
+    uidNumber = response['uidNumber'].toString();
   }
 }

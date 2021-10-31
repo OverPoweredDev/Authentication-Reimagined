@@ -124,6 +124,11 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+  _waitForResult(bool result) async {
+    await Future.delayed(const Duration(seconds: 3));
+    _showSuccessFailureDialog(context, result);
+  }
+
   _showFaceDialog(BuildContext context) async {
     showDialog(
       context: context,
@@ -281,7 +286,7 @@ class _HomeScreenState extends State<HomeScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const SizedBox(height: 30),
+              const SizedBox(height: 40),
               Center(
                 child: Icon(icon, size: 140, color: Colors.white),
               ),
@@ -297,7 +302,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   textAlign: TextAlign.center,
                 ),
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 30),
             ],
           ),
         ),

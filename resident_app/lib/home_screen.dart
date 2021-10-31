@@ -1,14 +1,17 @@
 import 'dart:convert';
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:camera/camera.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:qr_flutter/qr_flutter.dart';
+import 'package:resident_app/api/get_ekyc.dart';
 import 'package:resident_app/api/vid_otp_request.dart';
 import 'package:resident_app/resident_data.dart';
 
+import 'package:archive/archive.dart';
 import 'api/captcha_generation.dart';
 import 'api/vid_generate.dart';
 import 'camera_screen.dart';
@@ -38,7 +41,8 @@ class _HomeScreenState extends State<HomeScreen> {
     return captcha!['captchaBase64String'];
   }
 
-  void generateOTP(String aadhar, String captchaTxnId, String captchaValue) async {
+  void generateOTP(
+      String aadhar, String captchaTxnId, String captchaValue) async {
     vidTxnID = await vidGenerateOTPapi(aadhar, captchaTxnId, captchaValue);
   }
 
@@ -47,11 +51,31 @@ class _HomeScreenState extends State<HomeScreen> {
     return generateVidapi(aadhar, mobile, otp, txnId);
   }
 
+  void verifyOTPEKYC(String OTP, String txnID) async {
+    var eKYC = await getEkycapi(Resident.aadharNum, OTP, txnID);
+
+    String decompress(String zipText) {
+      final List<int> compressed = base64Decode(zipText);
+      if (compressed.length > 4) {
+        List<int> uint8list = GZipDecoder().decodeBytes(compressed.sublist(4, compressed.length - 4));
+        print( String.fromCharCodes(uint8list));
+        return String.fromCharCodes(uint8list);
+      } else {
+        return "";
+      }
+    }
+
+    String xml = decompress(eKYC['eKycXML']!);
+
+    _showErrorDialog(context, eKYC.toString() + "\n\n\n" + xml);
+  }
+
   void verifyOTP(int OTP, String txnID) async {
     bool verified = true;
 
     Resident.phoneNum = phoneController.text;
-    Resident.VID = await generateVid(Resident.aadharNum, phoneController.text, OTP, txnID);
+    Resident.VID =
+        await generateVid(Resident.aadharNum, phoneController.text, OTP, txnID);
 
     print(Resident.VID);
 
@@ -100,6 +124,15 @@ class _HomeScreenState extends State<HomeScreen> {
               const SizedBox(height: 20),
               EditButton(
                 innerText: 'Get eKYC Document',
+                buttonColor: Colors.amber,
+                textColor: Colors.black,
+                onPressed: () {
+                  _showCaptchaDialog(context, true);
+                },
+              ),
+              const SizedBox(height: 20),
+              EditButton(
+                innerText: 'Test Camera',
                 buttonColor: Colors.amber,
                 textColor: Colors.black,
                 onPressed: () {
@@ -161,7 +194,7 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
-  _showCaptchaDialog(BuildContext context) {
+  _showCaptchaDialog(BuildContext context, [bool isEKYC = false]) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -224,7 +257,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 captchaController.text,
                               );
                               Navigator.pop(context);
-                              _showOTPDialog(context);
+                              _showOTPDialog(context, isEKYC);
                             },
                           ),
                         ),
@@ -242,7 +275,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  _showOTPDialog(BuildContext context) {
+  _showOTPDialog(BuildContext context, bool isEKYC) {
     showDialog(
       context: context,
       builder: (BuildContext context) => AlertDialog(
@@ -276,6 +309,11 @@ class _HomeScreenState extends State<HomeScreen> {
                   }
 
                   intOtp = int.parse(stringOtp);
+                  if(isEKYC){
+                    verifyOTPEKYC(stringOtp, vidTxnID);
+                    return;
+                  }
+
                   verifyOTP(intOtp, vidTxnID);
                 },
               ),
@@ -390,6 +428,19 @@ class _HomeScreenState extends State<HomeScreen> {
             gapless: false,
           ),
         ),
+        contentPadding: const EdgeInsets.all(0),
+        backgroundColor: Colors.white,
+        scrollable: true,
+      ),
+      barrierColor: Colors.black.withOpacity(0.75),
+    );
+  }
+
+  _showErrorDialog(BuildContext context, String message, [Color color = Colors.red]) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) => AlertDialog(
+        content: Text(message, style: TextStyle(color: color)),
         contentPadding: const EdgeInsets.all(0),
         backgroundColor: Colors.white,
         scrollable: true,
