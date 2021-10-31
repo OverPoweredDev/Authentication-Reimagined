@@ -7,18 +7,16 @@ Hackathon Submission for the UIDAI Hackathon 2021 by Team 202ACCEPTED
 
 <br>
 
-### Important Links
+## Important Links
 
 * [Compiled APKs (Verifier and Resident)](https://drive.google.com/drive/folders/1Nm-D_hOP8DvX-84G0MmmSq87CFw2rvel?usp=sharing)
 * Presentation of Solution
 * [Screenshots of App](https://drive.google.com/drive/folders/1yqrvqmFdz82PvhLRp3VgP-M9xBx-h8UG?usp=sharing)
-* [Screen Recording of Apps](https://drive.google.com/drive/folders/1322cyvZyhc_71UxXgd9phQR2dFMM7lZ2?usp=sharing)
-* [G-Drive Link](https://drive.google.com/drive/u/1/folders/1UCbi8d1H3KmbGus2gnI6PwYWdqzX4PD0)
+* [Video Recording of Apps](https://drive.google.com/drive/folders/1322cyvZyhc_71UxXgd9phQR2dFMM7lZ2?usp=sharing)
+* [Google Drive Link](https://drive.google.com/drive/u/1/folders/1UCbi8d1H3KmbGus2gnI6PwYWdqzX4PD0)
 
 
 <br>
-
-
 
 ###  App Flow 
 
@@ -89,6 +87,7 @@ We use a modified Flutter (Kotlin/Swift) Techstack implemented mostly in flutter
 - OTP API to simulate Fingerprint Hash (as mentioned in the docs)
 - OTP API for Mobile phone Auth
 - eKYC API for Stateless Matching.
+- Face RD APK for Online/Offline
 - Aadhaar Auth API
 
 <br>
