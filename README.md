@@ -9,10 +9,10 @@ Hackathon Submission for the UIDAI Hackathon 2021 by Team 202ACCEPTED
 
 ## Important Links
 
+* [Video Recording of Apps](https://drive.google.com/drive/folders/1322cyvZyhc_71UxXgd9phQR2dFMM7lZ2?usp=sharing)
 * [Compiled APKs (Verifier and Resident)](https://drive.google.com/drive/folders/1Nm-D_hOP8DvX-84G0MmmSq87CFw2rvel?usp=sharing)
 * [Presentation of Solution](https://docs.google.com/presentation/d/1Y_3-m4eiQ-Im2bgNyngsnCTiFiHP7KJJ8Qe4wQY0Hn0/edit?usp=sharing)
 * [Screenshots of App](https://drive.google.com/drive/folders/1yqrvqmFdz82PvhLRp3VgP-M9xBx-h8UG?usp=sharing)
-* [Video Recording of Apps](https://drive.google.com/drive/folders/1322cyvZyhc_71UxXgd9phQR2dFMM7lZ2?usp=sharing)
 * [Google Drive Link](https://drive.google.com/drive/u/1/folders/1UCbi8d1H3KmbGus2gnI6PwYWdqzX4PD0)
 
 
