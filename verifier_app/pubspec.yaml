@@ -32,6 +32,7 @@ dependencies:
 
   camera:
   uuid:
+  archive: ^3.1.6
   qr_code_scanner:
   google_fonts:
   cupertino_icons: ^1.0.2

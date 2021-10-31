@@ -30,7 +30,7 @@ class responseHandler{
     captchaBase64String = response['captchaBase64String'];
     captchaTxnId = response['captchaTxnId'];
     requestedDate = response['requestedDate'];
-    statusCode = response ['statusCode'];
+    statusCode = response ['statusCode'].toString();
     message = response['message'];
   }
 
