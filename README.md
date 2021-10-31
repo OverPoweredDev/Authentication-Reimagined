@@ -36,13 +36,14 @@ Hackathon Submission for the UIDAI Hackathon 2021 by Team 202ACCEPTED
 * Facilitates generation of Virtual Aadhaar Number with Captcha and OTP based security.
 * Facilitates downloading eKYC XML to share with Verifier using QR code for OFfline Face Auth.
 
+<br>
 
 ### General
 
 This is a project submitted to the UIDAI Aadhar Authentication Hackathon. We try to explore authentication options in a variety of ways, while providing a seamless transition from online to offline. The methods of Authentication are:
 - Fingerprint Matching (Simulated due to lack of fingerprint sensors)
 - Aadhaar based OTP matching (Via SMS or email)
-- Stateless eKYC Matching
+- Stateless Face Matching
 
 The navigational structure of the project looks something like this
 
@@ -74,8 +75,8 @@ with the files in `lib` containing the important application data
 * Verifier also takes actual fingerprint and computes its hash.
 * If both hashes match, authenticity is proven completely offline (extremely fast).
 
-#### Offline eKYC Match
-* If fingerprint authentication not possible, Offline Stateless eKYC match implemented from the API
+#### Offline Face Match
+* If fingerprint authentication not possible, Offline Stateless Face match implemented from the API
 * Resident app will obtain eKYC XML from UIDAI server (at setup).
 * Stateless match performed as already supported in the Verifier App.
 
