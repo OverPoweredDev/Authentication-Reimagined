@@ -53,4 +53,26 @@ class MainActivity : FlutterActivity() {
 
         startActivityForResult(intent, 123)
     }
+
+    fun launchFaceMatchIntent(request: String) {
+        val intent = createIntent("in.gov.uidai.rdservice.face.MATCH")
+
+        intent.putExtra("request", request)
+
+        startActivityForResult(intent, 1233)
+
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        data?.let {
+            if (resultCode == Activity.RESULT_OK && requestCode == MATCH_REQ_CODE) {
+                //handleMatchResponse(it.getStringExtra("response"));
+            }
+        }
+    }
+    //fun handleMatchResponse(response: String){
+    //
+    //}
+
 }
