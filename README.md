@@ -1,6 +1,6 @@
 ![Banner](banner.png) 
 
-Hackathon Submission for the UIDAI Hackathon 2021 by Team 202ACCEPTED
+Second Place Winner for the UIDAI Hackathon 2021 by Team 202 ACCEPTED
 
 ## Theme 2 : Problem Statement 4
 ### 100% Authentication success in Rural India
