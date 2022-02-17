@@ -1,9 +1,9 @@
 ![Banner](banner.png) 
 
-Second Place Winner for the UIDAI Hackathon 2021 by Team 202 ACCEPTED
-
 ## Theme 2 : Problem Statement 4
 ### 100% Authentication success in Rural India
+
+Second Place Winner for the UIDAI Hackathon 2021 by Team 202 ACCEPTED. Our Project was to develop 2 Applications for Verification and Authentication of identity using Aadhaar biometrics on mobile devices.
 
 <br>
 
