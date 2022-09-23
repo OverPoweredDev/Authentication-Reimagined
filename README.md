@@ -1,9 +1,10 @@
-![Banner](banner.png) 
+![Banner](https://user-images.githubusercontent.com/64774148/192003176-88cd889a-c30a-4534-8c32-45e600d55286.png)
 
-## Theme 2 : Problem Statement 4
 ### 100% Authentication success in Rural India
 
 Second Place Winner for the UIDAI Hackathon 2021 by Team 202 ACCEPTED. Our Project was to develop 2 Applications for Verification and Authentication of identity using Aadhaar biometrics on mobile devices.
+
+##### Please do not ask how to implement this as the Aadhaar API is disabled completely. It was only available during the hackathon and cannot be used now.
 
 <br>
 
